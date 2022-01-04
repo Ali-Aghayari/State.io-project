@@ -1,0 +1,6 @@
+\contentsline {section}{{\fehrestContent اهداف پروژه}}{2}{section*.1}% 
+\contentsline {section}{{\fehrestContent منوی اصلی بازی}}{2}{section*.2}% 
+\contentsline {section}{{\fehrestContent نقشه بازی}}{2}{section*.3}% 
+\contentsline {section}{{\fehrestContent قوانین بازی}}{4}{section*.4}% 
+\contentsline {section}{{\fehrestContent نکات تکمیلی}}{7}{section*.5}% 
+\contentsline {section}{{\fehrestContent تحویل}}{8}{section*.6}% 

@@ -1,0 +1,638 @@
+\documentclass[]{article}
+\usepackage{graphicx}
+\usepackage[svgnames]{xcolor} 
+\usepackage{fancyhdr}
+\usepackage{tocloft}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\usepackage[many]{tcolorbox}
+\usepackage{listings }
+%\usepackage[a4paper, total={6in, 8in} , top = 2cm,bottom = 4cm]{geometry}
+\usepackage[a4paper, total={6in, 8in} , top = 2cm,bottom = 4cm]{geometry}
+\usepackage{afterpage}
+\usepackage{amssymb}
+\usepackage{pdflscape}
+\usepackage{textcomp}
+\usepackage{xecolor}
+\usepackage{rotating}
+\usepackage[Kashida]{xepersian}
+\usepackage[T1]{fontenc}
+\usepackage{tikz}
+\usepackage[utf8]{inputenc}
+\usepackage{PTSerif} 
+\usepackage{seqsplit}
+\usepackage{changepage}
+
+
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{sectsty}
+
+\setcounter{secnumdepth}{0}
+ 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{blanchedalmond}{rgb}{1.0, 0.92, 0.8}
+\definecolor{brilliantlavender}{rgb}{0.96, 0.73, 1.0}
+ 
+\NewDocumentCommand{\codeword}{v}{
+\texttt{\textcolor{blue}{#1}}
+}
+\lstset{language=java,keywordstyle={\bfseries \color{blue}}}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\normalsize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+ \settextfont[BoldFont={XB Zar bold.ttf}]{XB Zar.ttf}
+
+
+\setlatintextfont[Scale=1.0,
+ BoldFont={LiberationSerif-Bold.ttf}, 
+ ItalicFont={LiberationSerif-Italic.ttf}]{LiberationSerif-Regular.ttf}
+
+
+
+
+
+\newcommand{\inputsample}[1]{
+    ~\\
+    \textbf{ورودی نمونه}
+    ~\\
+    \begin{tcolorbox}[breakable,boxrule=0pt]
+        \begin{latin}
+            \large{
+                #1
+            }
+        \end{latin}
+    \end{tcolorbox}
+}
+
+\newcommand{\outputsample}[1]{
+    ~\\
+    \textbf{خروجی نمونه}
+
+    \begin{tcolorbox}[breakable,boxrule=0pt]
+        \begin{latin}
+            \large{
+                #1
+            }
+        \end{latin}
+    \end{tcolorbox}
+}
+
+\newtcolorbox{mybox}[2][]{colback=red!5!white,
+colframe=red!75!black,fonttitle=\bfseries,
+colbacktitle=red!85!black,enhanced,
+attach boxed title to top center={yshift=-2mm},
+title=#2,#1}
+
+\newenvironment{changemargin}[2]{%
+\begin{list}{}{%
+\setlength{\topsep}{0pt}%
+\setlength{\leftmargin}{#1}%
+\setlength{\rightmargin}{#2}%
+\setlength{\listparindent}{\parindent}%
+\setlength{\itemindent}{\parindent}%
+\setlength{\parsep}{\parskip}%
+}%
+\item[]}{\end{list}}
+
+
+\definecolor{foldercolor}{RGB}{124,166,198}
+\definecolor{sectionColor}{HTML}{ff5e0e}
+\definecolor{subsectionColor}{HTML}{008575}
+
+\definecolor{listColor}{HTML}{00d3b9}
+
+\definecolor{umlrelcolor}{HTML}{3c78d8}
+
+\definecolor{subsubsectionColor}{HTML}{3c78d8}
+
+\defpersianfont\authorFont[Scale=0.9]{XB Zar bold.ttf}
+
+
+\defpersianfont\titr[Scale=1.5]{Lalezar-Regular.ttf}
+
+\defpersianfont\fehrest[Scale=1.2]{Lalezar-Regular.ttf}
+
+\defpersianfont\fehrestTitle[Scale=3.0]{Lalezar-Regular.ttf}
+
+\defpersianfont\fehrestContent[Scale=1.2]{XB Zar bold.ttf}
+
+
+\sectionfont{\color{sectionColor}}  % sets colour of sections
+\subsectionfont{\color{subsectionColor}}  % sets colour of sections
+\subsubsectionfont{\color{subsubsectionColor}}
+
+
+\renewcommand{\labelitemii}{$\circ$}
+
+
+\renewcommand{\baselinestretch}{1.1}
+
+
+\renewcommand{\contentsname}{فهرست}
+
+\renewcommand{\cfttoctitlefont}{\fehrestTitle}
+
+
+\renewcommand\cftsecfont{\color{sectionColor}\fehrestContent\selectfont}
+\renewcommand\cftsubsecfont{\color{subsectionColor}\fehrestContent\selectfont}
+\renewcommand\cftsubsubsecfont{\color{subsubsectionColor}\fehrestContent\selectfont}
+%\renewcommand{\cftsecpagefont}{\color{sectionColor}}
+
+\setlength{\parskip}{1.2pt}
+
+\begin{document}
+
+
+%%% title pages
+\begin{titlepage}
+\begin{center}
+
+\textbf{ \Huge{به نام خدا} }
+        
+\vspace{0.2cm}
+
+\includegraphics[width=0.4\textwidth]{sharif1.png}\\
+\vspace{0.2cm}
+\textbf{ \Huge{\emph درس مبانی برنامه‌سازی } }\\
+\vspace{0.25cm}
+\textbf{ \Large{ پروژه} }
+\vspace{0.2cm}
+       
+ 
+      \large \textbf{دانشکده مهندسی کامپیوتر}\\\vspace{0.1cm}
+    \large   دانشگاه صنعتی شریف\\\vspace{0.2cm}
+       \large   ﻧﯿﻢ سال اول 01-00 \\\vspace{0.10cm}
+      \noindent\rule[1ex]{\linewidth}{1pt}
+اساتید:\\
+    \textbf{{محمدامین فضلی }}
+
+
+
+    \vspace{0.20cm}
+
+   مهلت ارسال فاز اول:\\
+    \textbf{{۱۲ بهمن - }}
+    \textbf{{ساعت 23:59:59}}
+
+    \vspace{0.10cm}
+    
+       مهلت ارسال فاز دوم:\\
+    
+    \textbf{{۲۱ بهمن - }}
+    \textbf{{ساعت 23:59:59}}
+    
+    \vspace{0.10cm}
+    
+    سردستیار آموزشی:\\
+    \textbf{\authorFont{امیرمهدی نامجو}}
+    
+    
+    
+مسئول پروژه:\\
+    \textbf{\authorFont{عرشیا اخوان}}
+    
+    
+    ناظر فنی پروژه:\\
+    
+        \textbf{\authorFont{محمدامین آریان}}
+        
+            ناظر اجرایی پروژه:\\
+   
+           \textbf{\authorFont{علی میرزایی سقزچی}}
+                
+        \vspace{0.10cm}
+تیم طراحی:\\
+    \textbf{\authorFont{علی ثالثی، مهدی تیموری‌انار، امیرمحمد فخیمی، علی بنافتی‌زاده، محمدامین کرمی، علی رحیمی‌اکبر،  \\ نیما کلیدری، امیرحسین براتی، آراد ملکی طولابی، محمد خسروی، امیررضا قدیانی، سپهر کیانیان و  محمدرضا مفیضی}}
+    
+        \vspace{0.05cm}
+مسئولین تنظیم داک:\\
+    \textbf{\authorFont{علی میرزایی سقزچی و امیرمهدی نامجو}}
+    
+
+\end{center}
+\end{titlepage}
+%%% title pages
+
+
+%%% header of pages
+\newpage
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\cfoot{\thepage}
+\lhead{نیم سال اول 01-00}
+\rhead{\includegraphics[width=0.1\textwidth]{sharif.png}\\
+دانشکده مهندسی کامپیوتر
+}
+\chead{پروژه مبانی برنامه‌سازی }
+%%% header of pages
+\renewcommand{\headrulewidth}{2pt}
+
+\KashidaOff
+
+
+
+\tableofcontents
+
+\newpage
+
+ \Large \textbf{\\
+}
+
+
+\section*{{\titr{اهداف پروژه}}}
+\addcontentsline{toc}{section}{{\fehrestContent اهداف پروژه}}
+
+
+\begin{itemize}
+	\item 
+	هدف این پروژه طراحی بازی‌ای تک‌نفره مشابه با بازی state.io است. از همین رو پیشنهاد می‌شود قبل از پیاده‌سازی پروژه این بازی را امتحان کنید.
+	
+	\item
+	در این پروژه نحوه‌ پیاده‌سازی اجزای مختلف بازی از اهمیت بسیاری برخوردار است و تنها خروجی نهایی مهم نیست. از این رو برای تمیزی کد خود ارزش قائل شوید.
+	
+	
+	\item
+	نحوه مدیریت حافظه در این پروژه به صورت جدا بررسی می‌شود. از این رو تلاش کنید تا حافظه سیستم را به درستی استفاده کنید.
+	
+\end{itemize}
+
+
+
+
+
+\section*{{\titr{منوی اصلی بازی}}}
+\addcontentsline{toc}{section}{{\fehrestContent منوی اصلی بازی}}
+کاربر هنگام ورود به بازی باید یک نام کاربری انتخاب کند که به وسیله آن شناخته می‌شود.
+\newline
+پس از انتخاب نام کاربری، کاربر وارد منوی اصلی می‌شود و می‌تواند انتخاب کند که:
+\begin{itemize}
+    \item{
+    یک بازی جدید شروع کند.
+    } 
+    \item{
+    بازی قبلی ذخیره شده را (در صورت وجود) ادامه دهد.
+    }
+    \item{
+    رتبه بندی بازیکن‌ها را مشاهده کند.
+    }
+\end{itemize}
+
+
+
+\section*{{\titr {نقشه بازی}}}
+\addcontentsline{toc}{section}{{\fehrestContent نقشه بازی}}
+نقشه بازی شامل چهار بخش اصلی است:
+\begin{itemize}
+    \item{سربازخانه خودی
+}
+    \item{سربازخانه‌های حریفان
+}
+    \item{سربازخانه‌های بی‌طرف (در ابتدا مربوط به هیچ بازیکنی نیستند اما امکان تصرف آن‌ها وجود دارد.
+}
+    \item{ناحیه‌های بدون سربازخانه (این ناحیه‌ها سربازخانه ندارند و امکان تصرف آن‌ها وجود ندارد)
+}    
+\end{itemize}
+\newpage
+نکات مربوط به نقشه:
+\begin{itemize}
+    \item{نحوه چینش سرباز‌خانه‌های بازیکنان عادلانه باشد (اجباری بر برابری تعداد سرباز‌خانه‌های بازیکنان در شروع بازی نیست)}
+    \item{نحوه‌ پیاده‌سازی ظاهر گرافیکی نقشه بر عهده شماست. اما باید موارد زیر در آن رعایت شده باشد.
+    \begin{itemize}
+        \item{سربازخانه‌های مربوط به هر بازیکن باید یک تم رنگی یکتا داشته باشند به‌ گونه‌ای که بتوان سرباز ها و سربازخانه‌های بازیکنان مختلف را از روی ظاهر آن‌ها و بدون هیچ نوشته‌ای تشخیص داد. ظاهر تمام ناحیه‌های بی‌طرف باید یکسان باشد.
+} 
+        \item{انتخاب شمایل سرباز‌ها و سربازخانه‌ها با شماست.
+} 
+        \item{تنها بخشی از یک ناحیه سربازخانه است و این سربازخانه در مرکز ناحیه قرار می‌گیرد. رنگ و شکل سربازخانه را طوری تنظیم کنید که بتوان سربازخانه‌ی واقع در آن ناحیه را از بقیه قسمت‌های آن تشخیص داد.
+} 
+    \end{itemize}
+}
+    \item{تعداد ناحیه‌های نقشه، باید معقول باشد که بازی بیش از حد آسان یا سخت نشود.
+}
+    \item{در ابتدای هر بازی، کاربر باید بتواند از بین چند نقشه آماده، نقشه مورد نظرش را انتخاب کند یا درخواست ایجاد یک نقشه تصادفی را بدهد.
+}
+    \item{نکات مربوط به نقشه تصادفی:
+    \begin{itemize}
+        \item{نقشه تصادفی باید تمامی قوانین ذکر شده را رعایت کند.
+}
+        \item{
+        \textcolor{red}{کاربر در انتخاب نقشه تصادفی می‌تواند تعداد نواحی و تعداد بازیکنان حریف را مشخص کند.
+}
+        }
+        \item{
+        \textcolor{red}{نقشه‌های تصادفی تولید شده باید قابلیت ذخیره شدن برای استفاده در بازی‌های بعدی را داشته باشند.  
+}
+        }
+    \end{itemize}
+}
+
+\end{itemize}
+
+\newpage
+
+\section*{{\titr{قوانین بازی}}}
+\addcontentsline{toc}{section}{{\fehrestContent قوانین بازی}}
+\begin{itemize}
+    \item{ 
+\textbf{سربازها و سربازخانه‌ها:
+}
+\newline
+توجه: انتخاب مقدار مناسب برای بخش‌هایی که زیر آن‌ها خط کشیده شده است، به اختیار خودتان است.
+قوانین زیر بدون در نظرگرفتن معجون‌ها بیان شده‌اند.
+
+\begin{itemize}
+    \item{
+هر سربازخانه در ابتدا
+\textbf{\underline{تعدادی سرباز}}
+در خود دارد و در طول بازی با
+\textbf{\underline{نرخی مشخص،}}
+سرباز تولید می‌کند 
+    }
+    \item{
+هر سربازخانه تا زمانی سرباز جدید تولید می‌کند که تعداد سرباز‌های موجود در آن سرباز خانه از
+\textbf{\underline{عددی}}
+کمتر باشد. پس از آن برای افزایش تعداد سرباز موجود در آن سربازخانه تنها ‌‌می‌توان از سربازخانه‌های خودی به سربازخانه مذکور سرباز فرستاد.
+    }
+    \item{
+در هنگام ورود یک سرباز به سربازخانه:
+    \begin{itemize}
+        \item{اگر سرباز‌خانه و سرباز هر دو متعلق به یک بازیکن باشند، یک واحد به سرباز‌های آن سرباز‌خانه افزوده می‌شود.
+} 
+        \item{در غیر این صورت اگر سربازی در سربازخانه باشد، یک واحد از تعداد سرباز‌های درون سربازخانه کاسته می‌شود.
+} 
+        \item{اگر در سربازخانه دشمن هیچ سربازی نباشد (تعداد سرباز ها ۰ باشد)، تعداد سربازهای آن سربازخانه ۱ شده و آن سرباز‌خانه به لیست سرباز‌خانه های بازیکنی که آن سرباز را فرستاده اضافه می‌شود.
+} 
+    \end{itemize}    
+    }
+    \item{
+در سرباز‌خانه‌های بی‌طرف، سرباز تولید نمی‌شود.
+    }
+    \item{
+وقتی تمام سربازخانه‌های یک بازیکن تسخیر شود، بازیکن می‌بازد. در صورت تسخیر سرباز‌خانه‌های همه بازیکنان،آخرین بازیکن برنده می‌شود(لازم به تصرف خانه‌های بی‌طرف نیست).
+    }
+    \item{
+سربازها می‌توانند از روی سربازخانه‌هایی که هدف آن‌ها نیستند عبور کنند (یعنی از تعداد سربازها کم نمی‌شود و سربازخانه‌ها هم آسیبی نمی‌بیند).
+    }
+    \item{
+هر وقت سربازهایی که با یکدیگر دشمن‌اند، با یکدیگر برخورد کنند، یکدیگر را نابود می‌کنند (یعنی تعدادشان کم می‌شود). 
+    }
+    \item{
+هر سربازخانه موقع فرستادن سرباز به سمت سربازخانه‌ی دیگر، تمام سرباز های موجود در خود تا آن لحظه را می‌فرستد، در نتیجه تعداد سربازهای داخل آن صفر می‌شود (اما سربازخانه همچنان در تصرف بازیکن باقی می‌ماند و به تولید سرباز جدید ادامه می‌دهد).
+    }
+    \item{
+برای فرستادن سربازها، ابتدا باید یک سربازخانه خودی (مبدا) و سپس یک سربازخانه‌ی دیگر (مقصد) مشخص شود. 
+    }
+    \item{
+در هنگام فرستادن یک جوخه‌ از سرباز ها به یک سربازخانه، سربازها با 
+\textbf{\underline{وقفه‌های زمانی مشخص}}
+از یک‌دیگر فرستاده شده و مسیر بین دو سربازخانه را با
+\textbf{\underline{سرعت ثابتی}}
+طی می‌کنند.
+    }
+    \item{
+سربازها در یک خط مستقیم، پشت سر هم، از مبدا به مقصد فرستاده می‌شوند.
+
+\textcolor{red}{سربازها در چند خط موازیِ کنار هم، از سربازخانه‌ها فرستاده شوند.
+}
+    }
+\end{itemize}
+}
+\item{
+\textbf{معجون‌ها:
+}
+\newline
+در طول بازی در زمان و مکان‌هایی تصادفی (که دسترسی به آن‌ها ممکن باشد) تعدادی معجون
+\lr{(Potion)}
+روی نقشه ظاهر می‌شود. اگر سربازی از هر کدام از بازیکنان از روی آن معجون عبور کند، آن بازیکن
+\textbf{\underline{برای مدتی}}
+دارای ویژگی آن معجون می‌شوند.
+\begin{itemize}
+    \item{
+توجه کنید که در هر لحظه، برای هر بازیکن حداکثر یک معجون فعال است و اگر سربازهای بازیکنی که معجون فعال دارد، از روی معجون جدیدی رد شوند، معجون جدید فعال نمی‌شود.
+    }
+    \item{
+منظور از مکان قابل دسترسی، مکانیست که حداقل یک سرباز بتواند از آن عبور کند.
+    }
+    \item{
+    	برای پیاده‌سازی ظاهری معجون، باید هم حالتی که معجون بر روی نقشه قرار دارد و هم حالتی که در حال استفاده است، هر دو مورد توجه قرار بگیرد.
+    }
+    \item{
+پیاده‌سازی شمای ( به ازای هر سرباز، 2 یا 0.5 سرباز از پایگاه حریف کم شود.) ظاهری زمان تاثیر معجون نیز بر‌عهده‌ شماست.
+    }
+    \item{
+    از هر دسته‌ی زیر باید
+    \textbf{حداقل دو معجون}
+    مطابق با توضیحات داده شده پیاده‌سازی شود.
+    \begin{itemize}
+        \item{
+        معجون‌های مربوط به سربازها:
+        \begin{enumerate}
+            \item{
+            \textbf{\underline{به مدت $t_1$ ثانیه،}}
+            سرعت حرکت تمام سرباز های خودی
+            \textbf{\underline{$x$ برابر}}
+            شود.
+            }
+            \item{
+            \textbf{\underline{به مدت $t_2$ ثانیه،}}
+            قدرت هر سرباز ۲ برابر یا نصف شود. تاثیر دو برابر یا نصف بودن معجون، پس از فعال شدن مشخص می‌شود و اگر قدرت سرباز نصف شده بود به ازای هر ۲ سرباز یک سرباز حریف کشته می‌شود و اگر قدرت سرباز ۲ برابر شده بود، ۲ سرباز از سربازان حریف را می‌کشد
+            }
+            \item{
+            \textbf{\underline{به مدت $t_3$ ثانیه،}}
+            تمام سربازهای دشمن در جای خود ثابت شوند.
+            }
+            \item{
+            \textbf{\underline{به مدت $t_4$ ثانیه،}}
+            سرعت حرکت تمام سربازهای دشمن
+            \textbf{\underline{$y$ برابر}}
+            شود.
+            }
+        \end{enumerate}
+        }
+        \item{
+        معجون‌های مربوط به سربازخانه‌ها:
+        \begin{enumerate}
+            \item{
+            \textbf{\underline{به مدت $t_5$ ثانیه،}}
+            هر کدام از سربازخانه‌های خودی، بدون محدودیت تعداد سربازهای موجود در سربازخانه، سرباز تولید کنند.
+            }
+            \item{
+            \textbf{\underline{به مدت $t_6$ ثانیه،}}
+            اگر به یکی از سربازخانه‌های بازیکنی که این معجون را خورده است حمله شود، بجای کم شدن سربازهایش به آن‌ها اضافه شود. (در واقع سربازهای حریف را تبدیل به سرباز‌های خودی می‌کند.)
+            }
+            \item{
+            \textbf{\underline{به مدت $t_7$ ثانیه،}}
+            حریفان نتوانند به هیچکدام از سربازخانه‌های بازیکنی که معجون را فعال کرده است، حمله کنند.
+            }
+            \item{
+            \textbf{\underline{به مدت $t_8$ ثانیه،}}
+            نرخ تولید سربازها در تمام سربازخانه‌های بازیکنی که معجون را فعال کرده است،
+            \textbf{\underline{$z$ برابر}}
+            شود.
+            }
+        \end{enumerate}
+        }
+    \end{itemize}
+    }
+\end{itemize}
+}
+
+\item{
+\textbf{نحوه بازی حریف‌ها:}
+\newline
+حریف‌ها در بازی، باید تحرک داشته باشند (یعنی سربازهای تولید شده خود را بفرستند و خانه تصرف کنند). نحوه بازی آن‌ها، به خودتان بستگی دارد.
+\newline
+\textcolor{red}{هر چه حریف‌ها پیشرفته‌تر بازی کنند (طوری که احتمال بردشان بیشتر باشد)، نمره امتیازی بیشتری به شما تعلق خواهد گرفت.
+}
+}
+\item{
+\textbf{جدول امتیازات بازیکنان:}
+\newline
+برای هر کدام از بازیکنان حریف، یک اسم دلخواه در نظر بگیرید: بازیکن‌ها در رتبه بندی، بر اساس امتیازشان مرتب می‌شوند (پس توجه کنید که برای هر کدام از بازیکن‌های حریف هم باید امتیاز را ذخیره کنید). بازیکن با بیشترین امتیاز در ابتدای لیست نشان داده می‌شود.
+}
+
+\end{itemize}
+
+\newpage
+
+
+\section*{{\titr{نکات تکمیلی}}}
+\addcontentsline{toc}{section}{{\fehrestContent نکات تکمیلی}}
+\begin{itemize}
+    \item{
+    تعداد حریف‌ها در بازی،
+    \textbf{افزایش نمی‌یابد.}
+    } 
+    \item{ 
+    پس از پایان هر بازی، در صورت برنده شدن، بازیکن
+    \textbf{\underline{مقداری امتیاز}}
+    دریافت می‌کند، و در صورت باخت،
+    \textbf{\underline{مقداری امتیاز}}
+    از دست می‌دهد. (امتیازهای مربوط به باخت و برد الزاما برابر نیستند)
+    }
+    \item{ 
+    \textcolor{red}{کاربر باید بتواند وضعیت بازی از جمله مکان سرباز‌ها، وضعیت ناحیه‌ها و معجون‌ها را ذخیره کند و از بازی خارج شود، و وقتی که دوباره وارد بازی می‌شود، بازی قبلی را ادامه دهد.}
+    }
+    \item{ 
+    در پیاده‌سازی کد خود به مصرف حافظه و بحث‌های
+    \lr{Memory Management}
+    و
+    \lr{Memory Leak}
+    توجه کنید. این موارد به صورت جدا در تحویل نهایی پروژه بررسی می‌شوند.
+    }
+    \item{
+    \textcolor{red}{هر‌چقدر بازی در نظر ما زیبنده‌تر، نمره در کارنامه شما، زیبنده‌تر
+}
+    }
+    \item{
+    در هنگام تحویل تمیزی کد و نکات طراحی و پیاده‌سازی پروژه (مانند بزرگی و یکپارچگی توابع و فایل‌ها، استفاده درست از .h و .c ، ….) بررسی می‌شوند.
+    }
+
+
+    \item{
+استفاده از منابع اینترنتی (با ذکر منبع) مجاز است. با این حال، استفاده از بخش عمده پروژه دیگر افراد، استفاده از پروژه‌های آماده موجود در اینترنت و یا برون سپاری و هر گونه عمل نامتعارف دیگر، مصداق تقلب هستند و در صورت مشاهده، منفی نمره پروژه که معادل افتادن در این درس است تعلق خواهد گرفت.
+}
+\end{itemize}
+
+\newpage
+
+
+\section*{{\titr {تحویل}}}
+\addcontentsline{toc}{section}{{\fehrestContent تحویل}}
+
+پروژه از شما در دو فاز تحویل گرفته می‌شود، برای هرکدام از فاز ها در مخزن
+\lr{git}
+خود یک
+\lr{tag}
+ساخته و آدرس مخزن خود را در
+\lr{quera}
+ارسال کنید.
+
+ برای ساختن این مخزن گیتهاب، کافیست وارد
+\href{https://classroom.github.com/a/6YRnteBw}{\textcolor{blue}{\underline{این لینک}}} 
+شوید.
+
+ابتدا با لیستی مواجه می‌شوید که شماره دانشجویی تمام افراد در آن موجود است. شماره دانشجویی خود را بیابید و بر روی آن کلیک کنید.
+
+پس از تایید و در زمانی کمتر از 1 دقیقه، مخزن گیتهاب جدید شما ساخته می شود. در این مخزن، در یک فایل README.md شماره دانشجویی و نام خود را قرار داده و از این پس کدهای پروژه خود را وارد این مخزن کنید.
+\newline
+
+\textbf{نکات مربوط به هر فاز:}
+
+{فاز 1:}
+\begin{itemize}
+    \item{
+    \lr{Tag: phase1}
+    }
+    \item{
+    مواردی که باید پیاده‌سازی شوند:
+    \begin{itemize}
+        \item{نقشه بازی (تولید نقشه تصادفی و گرافیک مربوط به نواحی)
+}
+        \item{گرافیک اجزای بازی از قبیل سرباز، سربازخانه، معجون
+}
+    \end{itemize}
+    }
+\end{itemize}
+
+{فاز 2:}
+\begin{itemize}
+    \item{
+    \lr{Tag: phase2}
+    }
+    \item{
+    مواردی که باید پیاده‌سازی شوند:
+    \begin{itemize}
+        \item{منطق بازی (تصرف سربازخانه‌ها و نحوه عملکرد سرباز‌ها)
+}
+        \item{امتیازبندی و جدول امتیاز
+}
+        \item{معجون‌ها و عملکرد معجون‌ها
+        
+}
+        \item{منو
+
+}
+\end{itemize}
+    }
+\end{itemize}
+
+در نهایت توجه کنید که برای بررسی عملکرد در حوزه
+\lr{Memory Management}
+از شما خواسته می‌شود تا نقشه‌ای با ویژگی‌های خاص بسازید و عملکرد شما در آن نقشه بررسی ‌خواهد شد.
+\newline
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
