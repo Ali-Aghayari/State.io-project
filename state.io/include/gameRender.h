@@ -1,11 +1,10 @@
 #pragma once
 
-void selectshit();
-void ahshitherewegoagain(int map1X , int map1Y, int map2X , int map2Y);
+void attackTest(struct State *attacker, struct State *defender);
 void gamePage();
-void loadMap(int group, int mode, int x , int y );
-void printTroopCount(char * number , int Xcenter , int Ycenter , int size, int RGB[3]);
-void ahshitherewegoagain();
-void fuchinheeeeeeeeel(struct Troop troops[10]);
-void detectDasteKhar();
+void loadMap( struct State * input);
+void printTroopCount(struct State * input);
 void gameSetup();
+void loadBooster(int mode , float x , float y);
+void wereToPutBoost();
+void makeStates(struct State *states, int totalStates, int groups, int greyStatesCount);
