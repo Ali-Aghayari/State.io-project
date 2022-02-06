@@ -6,16 +6,6 @@
 #include "globalVariable.h"
 
 
-// void musicPlay() {
-// 	music = Mix_LoadMUS("res/music.mp3");
-// 	if ( !music) {
-// 		printf("Failed to load music or sound: %s", Mix_GetError());
-// 	}
-// 	int result = Mix_PlayMusic( music, -1 );
-// 	if ( result != 0 ) {
-// 		printf("Failed to play music: %s", Mix_GetError());
-// 	}
-// }
 void welcomePage() {
 	SDL_Surface* sdlImage = SDL_LoadBMP("res/img/mainPage.bmp");
 	if (sdlImage == NULL) {printf("Unable to load bitmap: %s \n", SDL_GetError());}
@@ -24,7 +14,7 @@ void welcomePage() {
 	SDL_DestroyTexture(sdlTexture);
 	SDL_FreeSurface(sdlImage);
 }
-void outputScreen(char *input , int Xcenter , int Ycenter , int size, int RGB[3], int mode) { // input char*
+void outputScreen(char *input , int Xcenter , int Ycenter , int size, int RGB[3], int mode) {
 	TTF_Font* font;
 	if (mode == 1) {font = TTF_OpenFont("res/pricedown bl.otf", size);}
 	if (mode == 2) {font = TTF_OpenFont("res/Play With Fire.ttf", size);}
@@ -57,7 +47,6 @@ void welcomePagePreSetup() {
 	outputScreen("state.io", SCREEN_WIDTH / 2 , SCREEN_HEIGHT / 13, 100 , RGB, 1);
 	outputScreen("enter user name : ", SCREEN_WIDTH / 2 , SCREEN_HEIGHT / 13 * 3   , 70 , RGB, 1);
 	outputScreen("created by : Ali Aghayari", SCREEN_WIDTH / 2 , SCREEN_HEIGHT / 17 * 16 , 30 , RGB, 1);
-	//musicPlay();
 }
 
 int inputScreenAndRefresh()
@@ -90,9 +79,6 @@ int inputScreenAndRefresh()
 				if (dataBase == NULL)
 				{
 					printf("Error openning Files\n");
-					////////////////////////////////////
-
-					/////////////////////////////////
 				}
 				char line[256];
 				while (fgets(line, 256, dataBase) != NULL)
@@ -100,8 +86,7 @@ int inputScreenAndRefresh()
 					sscanf(line, " %d %d %d %[^\n]s", &idCheck, &rank, &score, userName);
 					if (score >= 0) {controlRank++;}
 					controlId++;
-					userName[strlen(userName)-1]='\0';
-					if (strcasecmp(userName, input) == 0)
+					if (strcasecmp(userName, input + 1) == 0)
 					{
 						flag = 0;
 						break;
@@ -109,20 +94,19 @@ int inputScreenAndRefresh()
 				}
 				if (flag)
 				{
-					fprintf(dataBase, "%d %d %d %s\n", controlId, controlRank, 0, input);
+					fprintf(dataBase, "%d %d %d%s\n", controlId, controlRank, 0, input);
+					fclose(dataBase);
+					SDL_StopTextInput();
 					return controlId;
 				}
 				else {
+					fclose(dataBase);
+					SDL_StopTextInput();
 					return idCheck;
 				}
-				fclose(dataBase);
-
 				running = 0;
 			}
 			else if  (event.type == SDL_QUIT ) {
-				//////////////////////////////
-				// did u add ahang???
-				//////////////////////////////
 				Mix_Quit();
 				TTF_Quit();
 				SDL_Quit();
@@ -135,6 +119,7 @@ int inputScreenAndRefresh()
 		}
 	}
 	SDL_StopTextInput();
+	return -1;
 }
 int welcomePageSetup() {
 	welcomePagePreSetup();

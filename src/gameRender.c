@@ -35,12 +35,10 @@ void printTroopCount(struct State *input)
 		printf("Failed to load font: %s", TTF_GetError());
 	}
 
+
 	SDL_Surface *sdlText;
 	SDL_Color color1 = {0, 0, 0};
 	SDL_Color color2 = {255, 0, 0};
-
-
-	// any idea for the color ?
 
 
 	int length = snprintf(NULL, 0, "%d", input->troops);
@@ -63,7 +61,7 @@ void printTroopCount(struct State *input)
 	SDL_Texture *textTexture;
 	textTexture = SDL_CreateTextureFromSurface(sdlRenderer, sdlText);
 	SDL_Rect src = {0, 0, sdlText->w, sdlText->h};
-	SDL_Rect dest = {32 * 3 + input->xArea * 64 * 3 - (sdlText->w) / 2, 20 + 32 * 3 + input->yArea * 64 * 3 - (sdlText->h) / 2, sdlText->w, sdlText->h};
+	SDL_Rect dest = {MapSize / 2 + input->xArea * MapSize - (sdlText->w) / 2, 20 + MapSize / 2 + input->yArea * MapSize - (sdlText->h) / 2, sdlText->w, sdlText->h};
 	SDL_RenderCopy(sdlRenderer, textTexture, &src, &dest);
 	TTF_CloseFont(font);
 	SDL_FreeSurface(sdlText);
@@ -178,7 +176,7 @@ void makeStates(struct State *states, int groups, int greyStatesCount)
 		states[i * 2].selected = 0;
 		states[i * 2].team = i + 1;
 		states[i * 2].shape = rand() % 10;
-		states[i * 2].troops = 15;
+		states[i * 2].troops = StartingT;
 		do
 		{
 			Xmap = rand() % 7;
@@ -193,7 +191,7 @@ void makeStates(struct State *states, int groups, int greyStatesCount)
 		states[i * 2 + 1].selected = 0;
 		states[i * 2 + 1].team = i + 1;
 		states[i * 2 + 1].shape = rand() % 10;
-		states[i * 2 + 1].troops = 15;
+		states[i * 2 + 1].troops = StartingT;
 		do
 		{
 			Xmap = rand() % 7;
@@ -210,7 +208,7 @@ void makeStates(struct State *states, int groups, int greyStatesCount)
 		states[i + 2 * groups].selected = 0;
 		states[i + 2 * groups].team = 6;
 		states[i + 2 * groups].shape = rand() % 10;
-		states[i + 2 * groups].troops = 10;
+		states[i + 2 * groups].troops = StartingG ;
 		do
 		{
 			Xmap = rand() % 7;
@@ -288,8 +286,8 @@ int makeTroops(struct Troop * (troops[TroopsMax]), struct State *states, int ind
 			yPos = (states + i)->yArea * MapSize + HalfSize;
 			xEnd = (states + i)->attackTo->xArea * MapSize + HalfSize;
 			yEnd = (states + i)->attackTo->yArea * MapSize + HalfSize;
-			Vx = ((states + i)->attackTo->xArea - (states + i)->xArea) / sqrt(((states + i)->xArea - (states + i)->attackTo->xArea) * ((states + i)->xArea - (states + i)->attackTo->xArea) + ((states + i)->yArea - (states + i)->attackTo->yArea) * ((states + i)->yArea - (states + i)->attackTo->yArea));
-			Vy = ((states + i)->attackTo->yArea - (states + i)->yArea) / sqrt(((states + i)->xArea - (states + i)->attackTo->xArea) * ((states + i)->xArea - (states + i)->attackTo->xArea) + ((states + i)->yArea - (states + i)->attackTo->yArea) * ((states + i)->yArea - (states + i)->attackTo->yArea));
+			Vx = Sorat * ((states + i)->attackTo->xArea - (states + i)->xArea) / sqrt(((states + i)->xArea - (states + i)->attackTo->xArea) * ((states + i)->xArea - (states + i)->attackTo->xArea) + ((states + i)->yArea - (states + i)->attackTo->yArea) * ((states + i)->yArea - (states + i)->attackTo->yArea));
+			Vy = Sorat * ((states + i)->attackTo->yArea - (states + i)->yArea) / sqrt(((states + i)->xArea - (states + i)->attackTo->xArea) * ((states + i)->xArea - (states + i)->attackTo->xArea) + ((states + i)->yArea - (states + i)->attackTo->yArea) * ((states + i)->yArea - (states + i)->attackTo->yArea));
 			if ((states + i)->boostedMode == 4) { Vx *= 2; Vy *= 2;}
 			if (reverseBoostFlag != 0 && (states + i)->boostedMode != 1) { Vx /= 2; Vy /= 2;}
 			troops[indexTroops] = (struct Troop *)malloc(sizeof(struct Troop));
@@ -452,7 +450,7 @@ void myAI(struct State *states) {
 	int random;
 	for (int m = 0; m < totalStates; m++)
 	{
-		if ((states + m)->team == 1 || (states + m)->team == 6 || (states + m)->attackTo != NULL) {continue;}
+		if ((states + m)->team == MyTeam || (states + m)->team == GreyTeam || (states + m)->attackTo != NULL) {continue;}
 		else if ((states + m)->troops > 45 && rand() % 2 == 0 ) {
 			do {
 				random = rand() % totalStates;
@@ -491,13 +489,14 @@ void myAI(struct State *states) {
 
 void readTroop(struct Troop * (troops[TroopsMax]), struct State *states, int id)
 {
-	//make enough space for troops
+	char temp[5];
+	char string [50] = "res/DataBase/";
+	sprintf(temp, "%d", id);
+	strcat(string, temp);
+	strcat(string, "T.txt");
 	int control = 0;
 	int team, xEnd, yEnd, boostedMode, indexOfState;
 	float Vx, xPos, Vy, yPos;
-	char string[20];
-	sprintf(string, "%d", id);
-	strcat(string, "T.txt");
 	FILE *dataBase = fopen(string, "r");
 	if (dataBase == NULL)
 	{
@@ -508,7 +507,7 @@ void readTroop(struct Troop * (troops[TroopsMax]), struct State *states, int id)
 	while (fgets(line, 256, dataBase) != NULL)
 	{
 		sscanf(line, " %d %f %f %f %f %d %d %d %d", &team, &xPos, &yPos, &Vx, &Vy, &xEnd, &yEnd, &boostedMode, &indexOfState);
-		///////////////////////////////////////////////////////////////////////
+		troops[control] = (struct Troop *)malloc(sizeof(struct Troop));
 		troops[control]->team = team;
 		troops[control]->xPos = xPos;
 		troops[control]->yPos = yPos;
@@ -518,20 +517,18 @@ void readTroop(struct Troop * (troops[TroopsMax]), struct State *states, int id)
 		troops[control]->xEnd = xEnd;
 		troops[control]->boostedMode = boostedMode;
 		troops[control]->attackTo = (states + indexOfState);
-		/////////////////////////////////////////////////////////////////////////
 		control++;
 	}
 	fclose(dataBase);
 }
-
-
-
 void writeTroop(struct Troop * (troops[TroopsMax]), struct State *states, int id)
 {
-	int index;
-	char string[20];
-	sprintf(string, "%d", id);
+	char temp[5];
+	char string [50] = "res/DataBase/";
+	sprintf(temp, "%d", id);
+	strcat(string, temp);
 	strcat(string, "T.txt");
+	int index;
 	FILE *dataBase = fopen(string, "w");
 	if (dataBase == NULL)
 	{
@@ -556,14 +553,14 @@ void writeTroop(struct Troop * (troops[TroopsMax]), struct State *states, int id
 	}
 	fclose(dataBase);
 }
-
-
 void writeMap(struct State *states, int id)
 {
+	char temp[5];
+	char string [50] = "res/DataBase/";
+	sprintf(temp, "%d", id);
+	strcat(string, temp);
+	strcat(string, "S.txt");
 	int index;
-	char string[20];
-	sprintf(string, "%d", id);
-	strcat(string, "M.txt");
 	FILE *dataBase = fopen(string, "w");
 	if (dataBase == NULL)
 	{
@@ -588,14 +585,14 @@ void writeMap(struct State *states, int id)
 	}
 	fclose(dataBase);
 }
-
 void readMap(struct State *states, int id)
 {
-	//make enough space for state
+	char temp[5];
+	char string [50] = "res/DataBase/";
+	sprintf(temp, "%d", id);
+	strcat(string, temp);
+	strcat(string, "S.txt");
 	int team, shape, troops, xArea, yArea, selected, attackCount, boostedMode, indexOfState, control = 0;
-	char string[20];
-	sprintf(string, "%d", id);
-	strcat(string, "M.txt");
 	FILE *dataBase = fopen(string, "r");
 	if (dataBase == NULL)
 	{
@@ -606,7 +603,6 @@ void readMap(struct State *states, int id)
 	while (fgets(line, 256, dataBase) != NULL)
 	{
 		sscanf(line, " %d %d %d %d %d %d %d %d %d", &team, &shape, &troops, &xArea, &yArea, &selected, &attackCount, &boostedMode, &indexOfState);
-		///////////////////////////////////////////////////////////////////////
 		(states + control)->team = team;
 		(states + control)->shape = shape;
 		(states + control)->troops = troops;
@@ -615,19 +611,20 @@ void readMap(struct State *states, int id)
 		(states + control)->selected = selected;
 		(states + control)->attackCount = attackCount;
 		(states + control)->boostedMode = boostedMode;
-		(states + control)->attackTo = (states + indexOfState);
-		/////////////////////////////////////////////////////////////////////////
+		if (indexOfState == -1) {(states + control)->attackTo = NULL;}
+		else {(states + control)->attackTo = (states + indexOfState);}
 		control++;
 	}
 	fclose(dataBase);
 }
 void readBooster(struct Booster * (boosters[BoostersMax]), int id)
 {
-	//make enough space for troops
-	int index, mode, timelimit, xPos, yPos, team[6];
-	char string[20];
-	sprintf(string, "%d", id);
+	char temp[5];
+	char string [50] = "res/DataBase/";
+	sprintf(temp, "%d", id);
+	strcat(string, temp);
 	strcat(string, "B.txt");
+	int index, mode, timelimit, xPos, yPos, team[6];
 	FILE *dataBase = fopen(string, "r");
 	if (dataBase == NULL)
 	{
@@ -637,7 +634,8 @@ void readBooster(struct Booster * (boosters[BoostersMax]), int id)
 	char line[256];
 	while (fgets(line, 256, dataBase) != NULL)
 	{
-		sscanf(line, " %d %d %d %d %d %d %d %d %d %d %d", &index, &mode, &timelimit, &xPos, &yPos, team+0, team+1, team+2, team+3, team+4, team+5);
+		sscanf(line, " %d %d %d %d %d %d %d %d %d %d %d", &index, &mode, &timelimit, &xPos, &yPos, team + 0, team + 1, team + 2, team + 3, team + 4, team + 5);
+		boosters[index] = (struct Booster *)malloc(sizeof(struct Booster));
 		boosters[index]->mode = mode;
 		boosters[index]->timeLimit = timelimit;
 		boosters[index]->xPos = xPos;
@@ -649,12 +647,14 @@ void readBooster(struct Booster * (boosters[BoostersMax]), int id)
 	}
 	fclose(dataBase);
 }
-
 void writeBooster(struct Booster * (boosters[BoostersMax]), int id)
 {
-	char string[20];
-	sprintf(string, "%d", id);
+	char temp[5];
+	char string [50] = "res/DataBase/";
+	sprintf(temp, "%d", id);
+	strcat(string, temp);
 	strcat(string, "B.txt");
+
 	FILE *dataBase = fopen(string, "w");
 	if (dataBase == NULL)
 	{
@@ -671,70 +671,102 @@ void writeBooster(struct Booster * (boosters[BoostersMax]), int id)
 	}
 	fclose(dataBase);
 }
-void readOnlineBooster(struct OnlineBooster *(onlineBoosters[OnlineBoostersMax]), int id)
+void readOnlineBooster(struct OnlineBooster * (onlineBoosters[OnlineBoostersMax]), int id)
 {
-    int index, mode, timer;
-    char string[20];
-    sprintf(string, "%d", id);
-    strcat(string, "O.txt");
-    FILE *dataBase = fopen(string, "r");
-    if (dataBase == NULL)
-    {
-        printf("Error openning Files\n");
-        return;
-    }
-    char line[256];
-    while (fgets(line, 256, dataBase) != NULL)
-    {
-        sscanf(line, " %d %d %d", &index, &mode, &timer);
-        onlineBoosters[index]->mode = mode;
-        onlineBoosters[index]->timer = timer;
-    }
-    fclose(dataBase);
+	char temp[5];
+	char string [50] = "res/DataBase/";
+	sprintf(temp, "%d", id);
+	strcat(string, temp);
+	strcat(string, "O.txt");
+	int index, mode, timer;
+	FILE *dataBase = fopen(string, "r");
+	if (dataBase == NULL)
+	{
+		printf("Error openning Files\n");
+		return;
+	}
+	char line[256];
+	while (fgets(line, 256, dataBase) != NULL)
+	{
+		sscanf(line, " %d %d %d", &index, &mode, &timer);
+		onlineBoosters[index] = (struct OnlineBooster *)malloc(sizeof(struct OnlineBooster));
+		onlineBoosters[index]->mode = mode;
+		onlineBoosters[index]->timer = timer;
+	}
+	fclose(dataBase);
 }
 
-void writeOnlineBooster(struct OnlineBooster *(onlineBoosters[OnlineBoostersMax]), int id)
+void writeOnlineBooster(struct OnlineBooster * (onlineBoosters[OnlineBoostersMax]), int id)
 {
-    char string[20];
-    sprintf(string, "%d", id);
-    strcat(string, "O.txt");
-    FILE *dataBase = fopen(string, "w");
-    if (dataBase == NULL)
-    {
-        printf("Error openning Files\n");
-        return;
-    }
-    for (int i = 0; i < OnlineBoostersMax; i++)
-    {
-        if (onlineBoosters[i] == NULL)
-        {
-            continue;
-        }
-        fprintf(dataBase, "%d %d %d\n", i, onlineBoosters[i]->mode, onlineBoosters[i]->timer);
-    }
-    fclose(dataBase);
+	char temp[5];
+	char string [50] = "res/DataBase/";
+	sprintf(temp, "%d", id);
+	strcat(string, temp);
+	strcat(string, "O.txt");
+	FILE *dataBase = fopen(string, "w");
+	if (dataBase == NULL)
+	{
+		printf("Error openning Files\n");
+		return;
+	}
+	for (int i = 0; i < OnlineBoostersMax; i++)
+	{
+		if (onlineBoosters[i] == NULL)
+		{
+			continue;
+		}
+		fprintf(dataBase, "%d %d %d\n", i, onlineBoosters[i]->mode, onlineBoosters[i]->timer);
+	}
+	fclose(dataBase);
 }
-
-
-void newGameSetup()
+int CountStates(int id) {
+	char temp[5];
+	char string [50] = "res/DataBase/";
+	sprintf(temp, "%d", id);
+	strcat(string, temp);
+	strcat(string, "S.txt");
+	int stateCount = 0;
+	FILE *dataBase = fopen(string, "r");
+	if (dataBase == NULL)
+	{
+		printf("Error openning Files\n");
+	}
+	char line[256];
+	while (fgets(line, 256, dataBase) != NULL)
+	{
+		stateCount++;
+	}
+	fclose(dataBase);
+	return stateCount;
+}
+void gameSetup(int newOrOld , int id)
 {
-	srand(time(NULL));
-
+	struct State *states;
 	int counterPrint = 0 , teamPrint = -1 , boosterPrint = -1, modePrint = -1;
-
-	int groups = 5; // get it
-	int greyStatesCount = 10 + rand() % 10;
-	totalStates = 2 * groups + greyStatesCount;
-	int slowFlag = 0;
-	struct State *states = (struct State *)malloc(sizeof(struct State) * totalStates);
 	struct Booster *(boosters[BoostersMax]);
 	struct Troop *(troops[TroopsMax]);
 	struct OnlineBooster *(onlineBoosters[OnlineBoostersMax]);
 	for (int i = 0; i < OnlineBoostersMax; ++i) {onlineBoosters[i] = NULL;}
 	for (int i = 0; i < TroopsMax; ++i) {troops[i] = NULL;}
 	for (int i = 0; i < BoostersMax; ++i) {boosters[i] = NULL;}
+	if (newOrOld == 1) {
+		srand(time(NULL));
+		int groups = 3; // take it
+		int greyStatesCount = 10 + rand() % 10;
+		totalStates = 2 * groups + greyStatesCount;
+		states = (struct State *)malloc(sizeof(struct State) * totalStates);
+		makeStates(states, groups, greyStatesCount);
+	}
+	if (newOrOld == 2) {
+		totalStates = CountStates(id);
+		states = (struct State *)malloc(sizeof(struct State) * totalStates);
+		readMap(states, id);
+		readTroop(troops, states, id);
+		readBooster(boosters, id);
+		readOnlineBooster(onlineBoosters, id);
+	}
+	int slowFlag = 0;
 	int indexTroops = 0, indexBoosters = 0;
-	makeStates(states, groups, greyStatesCount);
 	int loopCounter = 0, xMouse, yMouse, selectedState = -1, mouseOverState = -1, mouseDown = 0;
 	while (1)
 	{
@@ -745,13 +777,13 @@ void newGameSetup()
 			yMouse = event.motion.y / (MapSize);
 			if (event.type == SDL_QUIT)
 			{
-				//////////////////////////////
-				writeMap(states, 123);
-				writeTroop(troops, states, 123);
-				writeBooster(boosters,123);
-				writeOnlineBooster(onlineBoosters,123);
-				printf("hi");
-				///////////////////////////////
+				writeMap(states, id);
+				writeTroop(troops, states, id);
+				writeBooster(boosters, id);
+				writeOnlineBooster(onlineBoosters, id);
+				// Mix_Quit();
+				// TTF_Quit();
+				/////////////////////////////////??!?!
 				SDL_Quit();
 			}
 			else if (event.type == SDL_MOUSEBUTTONDOWN)
@@ -760,7 +792,7 @@ void newGameSetup()
 				{
 					for (int i = 0; i < totalStates; i++)
 					{
-						if ((states + i)->team == 1 && (states + i)->xArea == xMouse && (states + i)->yArea == yMouse)
+						if ((states + i)->team == MyTeam && (states + i)->xArea == xMouse && (states + i)->yArea == yMouse)
 						{
 							selectedState = i;
 							mouseDown = 1;
@@ -814,15 +846,15 @@ void newGameSetup()
 		loopCounter++;
 		SDL_RenderClear(sdlRenderer);
 		gamePage();
-		if (loopCounter > 30)
+		if (loopCounter > Speed)
 		{
 			for (int i = 0; i < totalStates; ++i)
 			{
-				if ( (states + i)->team != 6 && ((states + i)->troops < MaxInState ||  (states + i)->boostedMode == 3 )) {
+				if ( (states + i)->team != GreyTeam && ((states + i)->troops < MaxInState ||  (states + i)->boostedMode == 3 )) {
 					(states + i)->troops++;
 					if ((states + i)->boostedMode == 2 && (states + i)->troops < MaxInState) {(states + i)->troops++;}
 				}
-				else if ( (states + i)->team == 6 && (states + i)->troops < 10)
+				else if ( (states + i)->team == GreyTeam && (states + i)->troops < StartingG)
 				{
 					(states + i)->troops++;
 				}
@@ -833,7 +865,7 @@ void newGameSetup()
 			indexBoosters %= BoostersMax;
 			indexTroops += makeTroops(troops, states, indexTroops, slowFlag);
 			indexTroops %= TroopsMax;
-			loopCounter -= 30;
+			loopCounter -= Speed;
 		}
 		else
 		{
@@ -844,6 +876,7 @@ void newGameSetup()
 		}
 		myAI(states);
 		boosterTimer(boosters);
+		/////////////////////////////////////
 		for (int i = 0; i < TroopsMax; ++i)
 		{
 			if (troops[i] == NULL)
@@ -880,7 +913,7 @@ void newGameSetup()
 				{
 					int team = troops[i]->team  ;
 					boosters[k]->teamOnIt[team]++;
-					if (boosters[k]->teamOnIt[team] > 200)
+					if (boosters[k]->teamOnIt[team] > BoosterDeff)
 					{
 						if (onlineBoosters[team] != NULL) {continue;}  // bemoone ya na ?
 						onlineBoosters[team] = (struct OnlineBooster *)malloc(sizeof(struct OnlineBooster));
@@ -888,7 +921,7 @@ void newGameSetup()
 						onlineBoosters[team]-> timer = BoosterTime;
 						free(*(boosters + k));
 						boosters[k] = NULL;
-						counterPrint = 100;
+						counterPrint = AllertTime;
 						boosterPrint =  onlineBoosters[team]-> mode;
 						modePrint = 1;
 						teamPrint = team;
@@ -958,21 +991,18 @@ void newGameSetup()
 						}
 					}
 				}
-				counterPrint = 100 ;
+				counterPrint = AllertTime ;
 				teamPrint = j;
 				boosterPrint =  onlineBoosters[j]-> mode;
 				modePrint = 0;
 				free(*(onlineBoosters + j));
 				onlineBoosters[j] = NULL;
-
 			}
 			else {
 				onlineBoosters[j]->timer--;
 				if (onlineBoosters[j]->mode == 1) {slowFlag++;}
-				//slowFlag += (onlineBoosters[j]->mode == 1);
 			}
 		}
-
 		if (counterPrint > 0 &&  teamPrint != -1 && boosterPrint != -1 && modePrint != -1 ) {
 			printAllert(teamPrint, boosterPrint, modePrint);
 			counterPrint--;

@@ -4,7 +4,7 @@ void attackTest(struct State *attacker, struct State *defender);
 void gamePage();
 void loadMap( struct State * input);
 void printTroopCount(struct State * input);
-void gameSetup();
+void gameSetup(int newOrOld , int id);
 void loadBooster(int mode , float x , float y);
 void wereToPutBoost();
 int makeTroops(struct Troop * (troops[TroopsMax]), struct State *states, int indexBoosters) ;

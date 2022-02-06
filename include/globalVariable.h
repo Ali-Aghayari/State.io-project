@@ -10,14 +10,25 @@
 #define HalfSize 32*3
 #define BoosterSize 32
 #define BoosterTime 800
-
+#define BoosterDeff 200
+#define AllertTime 100
+#define Sorat 1.2
+//(for troops)
+#define Speed 30
+//(for game)
+#define MaxGroup 5
 #define GreyTeam 6
+#define MyTeam 1
+#define StartingT 15
+#define StartingG 10
 
 #define TroopsMax 1000
 #define BoostersMax 3
 #define OnlineBoostersMax 6
+
 #define StatesMax 35
 #define MaxInState 50
+
 #define ABS(a) a>0 ? a : -a
 #define MAX(a,b) a > b ? a : b
 #define MIN(a, b) a < b ? a : b

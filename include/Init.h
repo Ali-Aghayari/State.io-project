@@ -1,4 +1,4 @@
 #pragma once
 
-int errorHandle();
-void init();
+void errorHandle();
+void init() ;

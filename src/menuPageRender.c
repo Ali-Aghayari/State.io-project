@@ -1,4 +1,5 @@
 #include <SDL2/SDL2_gfxPrimitives.h>
+#include <SDL2/SDL_ttf.h>
 #include "globalVariable.h"
 #include "welcomePageRender.h"
 
@@ -22,9 +23,14 @@ void writeOnScreen(int mode1, int mode2, int mode3) {
 }
 int mainMenuDetect(int id) {
 	int flag = 1;
-	char string [50];
-	sprintf(string, "res/DataBase/1S.txt", id);
+
+	char temp[10] = {" "};
+	char string [50] = "res/DataBase/";
+	sprintf(temp, "%d", id);
+	strcat(string, temp);
+	strcat(string, "S.txt");
 	FILE* test = fopen(string, "r");
+
 	if (test == NULL) {flag = 0;}
 	else {
 		int lines = 0;
@@ -51,25 +57,21 @@ int mainMenuDetect(int id) {
 				writeOnScreen(2, 1, 1);
 				SDL_RenderPresent(sdlRenderer);
 				SDL_RenderClear(sdlRenderer);
-				if (event.type == SDL_MOUSEBUTTONDOWN) {return 1;} // new game -> data map tarafo pak kon ?!!
+				if (event.type == SDL_MOUSEBUTTONDOWN) {return 1;}
 			}
 			else if (flag && SCREEN_WIDTH / 2 - 250 < xMouse && xMouse < SCREEN_WIDTH / 2 + 250 && 230 < yMouse && yMouse < 350) {
 				mainMenuscreen();
 				writeOnScreen(1, 2, 1);
 				SDL_RenderPresent(sdlRenderer);
 				SDL_RenderClear(sdlRenderer);
-				if (event.type == SDL_MOUSEBUTTONDOWN) {
-					// sound effect ke nmishe ?!?!
-					// bayad flag ro avaz koni 
-					return 2;
-				} // data continue bekhoon age nadare begoo nadare
+				if (event.type == SDL_MOUSEBUTTONDOWN) {return 2;}
 			}
 			else if (SCREEN_WIDTH / 2 - 250 < xMouse && xMouse < SCREEN_WIDTH / 2 + 250 && 360 < yMouse && yMouse < 480) {
 				mainMenuscreen();
 				writeOnScreen(1, 1, 2);
 				SDL_RenderPresent(sdlRenderer);
 				SDL_RenderClear(sdlRenderer);
-				if (event.type == SDL_MOUSEBUTTONDOWN) {return 3;} // safhe rank biar
+				if (event.type == SDL_MOUSEBUTTONDOWN) {return 3;}
 			}
 			else {
 				mainMenuscreen();
@@ -78,13 +80,14 @@ int mainMenuDetect(int id) {
 				SDL_RenderClear(sdlRenderer);
 			}
 			if  (event.type == SDL_QUIT) {
-				running = 0;
-				// cloooooooooooose
+				Mix_Quit();
+				TTF_Quit();
+				SDL_Quit();
 			}
 
 		}
-
 	}
+	return -1;
 }
 int mainMenuSetup(int id) {
 	mainMenuscreen();

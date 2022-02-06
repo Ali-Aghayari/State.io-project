@@ -1,5 +1,5 @@
 #pragma once
 
-
 void drawbox(int ppl);
-void rankingPageSetup ();
+int userCount();
+void rankingPageSetup () ;
