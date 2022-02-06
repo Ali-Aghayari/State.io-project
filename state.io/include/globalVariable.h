@@ -9,12 +9,13 @@
 #define MapSize 64*3
 #define HalfSize 32*3
 #define BoosterSize 32
-#define BoosterTime 300
+#define BoosterTime 600
 
 #define GreyTeam 6
 
 #define TroopsMax 1000
-#define BoostersMax 5
+#define BoostersMax 3
+#define OnlineBoostersMax 6
 #define StatesMax 35
 #define MaxInState 50
 #define ABS(a) a>0 ? a : -a
