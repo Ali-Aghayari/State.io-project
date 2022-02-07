@@ -6,16 +6,17 @@
 #define SCREEN_WIDTH 64*3*7
 #define SCREEN_HEIGHT 64*3*5
 
+#define MAP1T 20
+
+
 #define MapSize 64*3
 #define HalfSize 32*3
 #define BoosterSize 32
 #define BoosterTime 800
 #define BoosterDeff 200
 #define AllertTime 100
-#define Sorat 1.2
-//(for troops)
-#define Speed 30
-//(for game)
+#define Sorat 1.2 
+#define Speed 30 
 #define MaxGroup 5
 #define GreyTeam 6
 #define MyTeam 1
@@ -33,12 +34,8 @@
 #define MAX(a,b) a > b ? a : b
 #define MIN(a, b) a < b ? a : b
 
-//team 1 is player !
-// make em null then send it and check for null thingies in write and reads ?!
-
 SDL_Window *sdlWindow ;
 SDL_Renderer *sdlRenderer;
-//Mix_Music* music; // ???
 
 int totalStates;
 

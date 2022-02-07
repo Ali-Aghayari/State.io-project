@@ -739,7 +739,178 @@ int CountStates(int id) {
 	fclose(dataBase);
 	return stateCount;
 }
-void gameSetup(int newOrOld , int id)
+
+void endGame(int id, int mode, int socreChange) {
+	SDL_RenderClear(sdlRenderer);
+	if (mode == 1) {
+		SDL_Surface* sdlImage = SDL_LoadBMP("res/img/win.bmp");
+		if (sdlImage == NULL) {printf("Unable to load bitmap: %s \n", SDL_GetError());}
+		SDL_Texture* sdlTexture = SDL_CreateTextureFromSurface(sdlRenderer, sdlImage);
+		SDL_RenderCopy(sdlRenderer, sdlTexture, NULL, NULL);
+		SDL_DestroyTexture(sdlTexture);
+		SDL_FreeSurface(sdlImage);
+	}
+	else if (mode == 0) {
+		SDL_Surface* sdlImage = SDL_LoadBMP("res/img/lose.bmp");
+		if (sdlImage == NULL) {printf("Unable to load bitmap: %s \n", SDL_GetError());}
+		SDL_Texture* sdlTexture = SDL_CreateTextureFromSurface(sdlRenderer, sdlImage);
+		SDL_RenderCopy(sdlRenderer, sdlTexture, NULL, NULL);
+		SDL_DestroyTexture(sdlTexture);
+		SDL_FreeSurface(sdlImage);
+	}
+
+	int RGB[] = {200, 0, 0};
+	outputScreen("press ESC to get back to main menu", SCREEN_WIDTH / 2, SCREEN_HEIGHT - 50 , 20, RGB, 3 );
+	// slkadflaskdjfsfskdkljfd	
+	SDL_RenderPresent(sdlRenderer);
+	while (1)
+	{
+		SDL_Event event;
+		while (SDL_PollEvent(&event))
+		{
+			if  (event.type == SDL_QUIT ) {
+				SDL_Quit();
+			}
+			if (event.key.keysym.sym == SDLK_ESCAPE) {
+				/// get back to main menu
+			}
+		}
+	}
+}
+
+void saveRandomMap(struct State *states, int name) {
+	char temp[5];
+	char string [50] = "res/DataBase/SavedMaps/";
+	sprintf(temp, "%d", name);
+	strcat(string, temp);
+	strcat(string, "S.txt");
+	int index;
+	FILE *dataBase = fopen(string, "w");
+	if (dataBase == NULL)
+	{
+		printf("Error openning Files\n");
+	}
+	for (int i = 0; i < totalStates; ++i)
+	{
+		index = -1;
+		if ((states + i)->attackTo != NULL)
+		{
+			for (int j = 0; j < totalStates; ++j)
+			{
+				if ((states + i)->attackTo == (states + j))
+				{
+					index = j;
+					break;
+				}
+			}
+		}
+		fprintf(dataBase, "%d %d %d %d %d %d %d %d %d\n", (states + i)->team, (states + i)->shape, (states + i)->troops, (states + i)->xArea, (states + i)->yArea, (states + i)->selected, (states + i)->attackCount, (states + i)->boostedMode, index);
+	}
+	fclose(dataBase);
+}
+int CountRandomSave(int name) {
+	char temp[5];
+	char string [50] = "res/DataBase/SavedMaps/";
+	sprintf(temp, "%d", name);
+	strcat(string, temp);
+	strcat(string, "S.txt");
+	int stateCount = 0;
+	FILE *dataBase = fopen(string, "r");
+	if (dataBase == NULL)
+	{
+		printf("Error openning Files\n");
+	}
+	char line[256];
+	while (fgets(line, 256, dataBase) != NULL)
+	{
+		stateCount++;
+	}
+	fclose(dataBase);
+	return stateCount;
+}
+void readRandomMap(struct State *states, int name) {
+	char temp[5];
+	char string [50] = "res/DataBase/SavedMaps/";
+	sprintf(temp, "%d", name);
+	strcat(string, temp);
+	strcat(string, "S.txt");
+	int team, shape, troops, xArea, yArea, selected, attackCount, boostedMode, indexOfState, control = 0;
+	FILE *dataBase = fopen(string, "r");
+	if (dataBase == NULL)
+	{
+		printf("Error openning Files\n");
+		return;
+	}
+	char line[256];
+	while (fgets(line, 256, dataBase) != NULL)
+	{
+		sscanf(line, " %d %d %d %d %d %d %d %d %d", &team, &shape, &troops, &xArea, &yArea, &selected, &attackCount, &boostedMode, &indexOfState);
+		(states + control)->team = team;
+		(states + control)->shape = shape;
+		(states + control)->troops = troops;
+		(states + control)->xArea = xArea;
+		(states + control)->yArea = yArea;
+		(states + control)->selected = selected;
+		(states + control)->attackCount = attackCount;
+		(states + control)->boostedMode = boostedMode;
+		if (indexOfState == -1) {(states + control)->attackTo = NULL;}
+		else {(states + control)->attackTo = (states + indexOfState);}
+		control++;
+	}
+	fclose(dataBase);
+}
+int ReadyMapCount(int map) {
+	char temp[5];
+	char string [50] = "res/DataBase/ReadyMaps/map";
+	sprintf(temp, "%d", map);
+	strcat(string, temp);
+	strcat(string, ".txt");
+	int stateCount = 0;
+	FILE *dataBase = fopen(string, "r");
+	if (dataBase == NULL)
+	{
+		printf("Error openning Files\n");
+	}
+	char line[256];
+	while (fgets(line, 256, dataBase) != NULL)
+	{
+		stateCount++;
+	}
+	fclose(dataBase);
+	return stateCount;
+}
+void ReadyMapOpen(struct State *states, int map) {
+	char temp[5];
+	char string [50] = "res/DataBase/ReadyMaps/map";
+	sprintf(temp, "%d", map);
+	strcat(string, temp);
+	strcat(string, ".txt");
+	int team, shape, troops, xArea, yArea, selected, attackCount, boostedMode, indexOfState, control = 0;
+	FILE *dataBase = fopen(string, "r");
+	if (dataBase == NULL)
+	{
+		printf("Error openning Files\n");
+		return;
+	}
+	char line[256];
+	while (fgets(line, 256, dataBase) != NULL)
+	{
+		sscanf(line, " %d %d %d %d %d %d %d %d %d", &team, &shape, &troops, &xArea, &yArea, &selected, &attackCount, &boostedMode, &indexOfState);
+		(states + control)->team = team;
+		(states + control)->shape = shape;
+		(states + control)->troops = troops;
+		(states + control)->xArea = xArea;
+		(states + control)->yArea = yArea;
+		(states + control)->selected = selected;
+		(states + control)->attackCount = attackCount;
+		(states + control)->boostedMode = boostedMode;
+		if (indexOfState == -1) {(states + control)->attackTo = NULL;}
+		else {(states + control)->attackTo = (states + indexOfState);}
+		control++;
+	}
+	fclose(dataBase);
+}
+void gameSetup(int newOrOld , int id, int map , int G , int S , int RandSave)
 {
 	struct State *states;
 	int counterPrint = 0 , teamPrint = -1 , boosterPrint = -1, modePrint = -1;
@@ -749,15 +920,27 @@ void gameSetup(int newOrOld , int id)
 	for (int i = 0; i < OnlineBoostersMax; ++i) {onlineBoosters[i] = NULL;}
 	for (int i = 0; i < TroopsMax; ++i) {troops[i] = NULL;}
 	for (int i = 0; i < BoostersMax; ++i) {boosters[i] = NULL;}
-	if (newOrOld == 1) {
-		srand(time(NULL));
-		int groups = 3; // take it
-		int greyStatesCount = 10 + rand() % 10;
+
+//////////////////////////////////////////////////////////////////////////
+	if (newOrOld == 1 && map == 3) {
+		int groups = G;
+		int greyStatesCount = S;
 		totalStates = 2 * groups + greyStatesCount;
 		states = (struct State *)malloc(sizeof(struct State) * totalStates);
 		makeStates(states, groups, greyStatesCount);
+		if (RandSave != -1) {saveRandomMap(states, RandSave);}
 	}
-	if (newOrOld == 2) {
+	else if (newOrOld == 1 && map == 4) {
+		totalStates = CountRandomSave(RandSave);
+		states = (struct State *)malloc(sizeof(struct State) * totalStates);
+		readRandomMap(states, RandSave);
+	}
+	else if (newOrOld == 1) {
+		totalStates = ReadyMapCount(map);
+		states = (struct State *)malloc(sizeof(struct State) * totalStates);
+		ReadyMapOpen(states, map);
+	}
+	else if (newOrOld == 2) {
 		totalStates = CountStates(id);
 		states = (struct State *)malloc(sizeof(struct State) * totalStates);
 		readMap(states, id);
@@ -765,9 +948,13 @@ void gameSetup(int newOrOld , int id)
 		readBooster(boosters, id);
 		readOnlineBooster(onlineBoosters, id);
 	}
+///////////////////////////////////////////////////////////////////////
 	int slowFlag = 0;
 	int indexTroops = 0, indexBoosters = 0;
 	int loopCounter = 0, xMouse, yMouse, selectedState = -1, mouseOverState = -1, mouseDown = 0;
+	int lose  , win  ;
+	clock_t before = clock ();
+	int Mmin = 0;
 	while (1)
 	{
 		SDL_Event event;
@@ -877,6 +1064,7 @@ void gameSetup(int newOrOld , int id)
 		myAI(states);
 		boosterTimer(boosters);
 		/////////////////////////////////////
+
 		for (int i = 0; i < TroopsMax; ++i)
 		{
 			if (troops[i] == NULL)
@@ -1009,5 +1197,29 @@ void gameSetup(int newOrOld , int id)
 		}
 		troopsMoveAndPrint(troops);
 		SDL_RenderPresent(sdlRenderer);
+
+
+		lose = 1, win = 1;
+		for (int i = 0; i < totalStates; ++i)
+		{
+			if (!(win || lose)) {break;}
+			if ((states + i)->team == MyTeam) {lose = 0;}
+			else if ((states + i)->team != MyTeam && (states + i)->team != GreyTeam) {win = 0;}
+		}
+		if (lose) {
+			// score -> 20 percent and -200
+			endGame(id, 0, 120);
+		}
+		if (win) {
+			// score -> total troops / 2 + total states * 4 + 2000/minute
+			clock_t difference = clock () - before;
+			Mmin = difference * 1000 / CLOCKS_PER_SEC / 60;
+			// 
+			/// 2000 / ( Mmin + 1 )
+			// esc for backing out
+			endGame(id, 1, 120);
+
+		}
+
 	}
 }

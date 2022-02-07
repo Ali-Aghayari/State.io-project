@@ -83,8 +83,8 @@ void rankingPageSetup () {
 		while (SDL_PollEvent(&event))
 		{
 			if  (event.type == SDL_QUIT ) {
-				Mix_Quit();
-				TTF_Quit();
+				// Mix_Quit();
+				// TTF_Quit();
 				SDL_Quit();
 			}
 			if (event.key.keysym.sym==SDLK_ESCAPE){

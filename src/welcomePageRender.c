@@ -107,8 +107,6 @@ int inputScreenAndRefresh()
 				running = 0;
 			}
 			else if  (event.type == SDL_QUIT ) {
-				Mix_Quit();
-				TTF_Quit();
 				SDL_Quit();
 			}
 			SDL_Delay(1000 / FPS);

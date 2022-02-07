@@ -41,6 +41,8 @@ int mainMenuDetect(int id) {
 		}
 		if (lines == 0) {flag = 0;}
 	}
+	int mode1=1;  int mode2=1; int mode3=1;
+
 	writeOnScreen(1, 1, 1);
 	SDL_RenderPresent(sdlRenderer);
 	int running = 1;
@@ -50,42 +52,29 @@ int mainMenuDetect(int id) {
 		SDL_Event event;
 		while (SDL_PollEvent(&event))
 		{
+			mode1 = 1; mode2 = 1; mode3 = 1;
 			xMouse = event.motion.x;
 			yMouse = event.motion.y;
 			if (SCREEN_WIDTH / 2 - 250 < xMouse && xMouse < SCREEN_WIDTH / 2 + 250 && 100 < yMouse && yMouse < 220) {
-				mainMenuscreen();
-				writeOnScreen(2, 1, 1);
-				SDL_RenderPresent(sdlRenderer);
-				SDL_RenderClear(sdlRenderer);
+				mode1 = 2;
 				if (event.type == SDL_MOUSEBUTTONDOWN) {return 1;}
 			}
 			else if (flag && SCREEN_WIDTH / 2 - 250 < xMouse && xMouse < SCREEN_WIDTH / 2 + 250 && 230 < yMouse && yMouse < 350) {
-				mainMenuscreen();
-				writeOnScreen(1, 2, 1);
-				SDL_RenderPresent(sdlRenderer);
-				SDL_RenderClear(sdlRenderer);
+				mode2 = 2;
 				if (event.type == SDL_MOUSEBUTTONDOWN) {return 2;}
 			}
 			else if (SCREEN_WIDTH / 2 - 250 < xMouse && xMouse < SCREEN_WIDTH / 2 + 250 && 360 < yMouse && yMouse < 480) {
-				mainMenuscreen();
-				writeOnScreen(1, 1, 2);
-				SDL_RenderPresent(sdlRenderer);
-				SDL_RenderClear(sdlRenderer);
+				mode3 = 2;
 				if (event.type == SDL_MOUSEBUTTONDOWN) {return 3;}
 			}
-			else {
-				mainMenuscreen();
-				writeOnScreen(1, 1, 1);
-				SDL_RenderPresent(sdlRenderer);
-				SDL_RenderClear(sdlRenderer);
-			}
 			if  (event.type == SDL_QUIT) {
-				Mix_Quit();
-				TTF_Quit();
 				SDL_Quit();
 			}
-
 		}
+		SDL_RenderClear(sdlRenderer);
+		mainMenuscreen();
+		writeOnScreen(mode1, mode2, mode3);
+		SDL_RenderPresent(sdlRenderer);
 	}
 	return -1;
 }
