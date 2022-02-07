@@ -1,0 +1,6 @@
+1 1 0 salam
+2 2 0 gay
+3 3 0 dali
+4 4 0 romina
+5 5 0 sal
+6 6 0 baba
