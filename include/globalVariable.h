@@ -1,6 +1,5 @@
 #pragma once
 
-#include <SDL2/SDL_mixer.h>
 
 #define FPS 60
 #define SCREEN_WIDTH 64*3*7
@@ -11,22 +10,23 @@
 
 #define MapSize 64*3
 #define HalfSize 32*3
-#define BoosterSize 32
+#define BoosterSize 50
 #define BoosterTime 800
 #define BoosterDeff 200
 #define AllertTime 100
-#define Sorat 1.2 
-#define Speed 30 
+#define Sorat 1.5
+#define Speed 30
 #define MaxGroup 5
 #define GreyTeam 6
 #define MyTeam 1
 #define StartingT 15
 #define StartingG 10
 
-#define TroopsMax 1000
+#define GrowRate 100
 #define BoostersMax 3
 #define OnlineBoostersMax 6
 
+#define TroopsMax 1200
 #define StatesMax 35
 #define MaxInState 50
 
@@ -36,8 +36,6 @@
 
 SDL_Window *sdlWindow ;
 SDL_Renderer *sdlRenderer;
-
-int totalStates;
 
 struct Booster {
 	int mode;
@@ -73,9 +71,11 @@ struct State {
 	struct State *attackTo;
 	int boostedMode;
 };
-struct Player {
-	int id;
-	int rank;
-	int playtime;
-	char input[15];
-};
+
+
+
+// int TroopsMax;
+// int TroopsCount;
+int totalStates;
+struct Troop ** temper1;
+struct Troop ** temper2;

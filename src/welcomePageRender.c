@@ -1,8 +1,4 @@
-#include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "globalVariable.h"
 
 
@@ -107,7 +103,9 @@ int inputScreenAndRefresh()
 				running = 0;
 			}
 			else if  (event.type == SDL_QUIT ) {
+				TTF_Quit();
 				SDL_Quit();
+				exit(0);
 			}
 			SDL_Delay(1000 / FPS);
 			SDL_RenderClear(sdlRenderer);

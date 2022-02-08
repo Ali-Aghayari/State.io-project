@@ -1,7 +1,4 @@
-#include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
-#include <SDL2/SDL_mixer.h>
-
 #include "globalVariable.h"
 
 void errorHandle() {
@@ -9,16 +6,8 @@ void errorHandle() {
 		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
 		return ;
 	}
-	if ( IMG_Init( IMG_INIT_JPG | IMG_INIT_PNG ) < 0 ) {
-		printf("Failed to initialize SDL_image: %s", IMG_GetError());
-		return ;
-	}
 	if (TTF_Init() < 0 ) {
 		printf("Error initializing SDL_ttf: %s", TTF_GetError());
-		return ;
-	}
-	if ( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 ) {
-		printf("Failed to open audio: %s", Mix_GetError());
 		return ;
 	}
 	return ;

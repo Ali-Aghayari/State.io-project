@@ -68,7 +68,9 @@ int mainMenuDetect(int id) {
 				if (event.type == SDL_MOUSEBUTTONDOWN) {return 3;}
 			}
 			if  (event.type == SDL_QUIT) {
+				TTF_Quit();
 				SDL_Quit();
+				exit(0);
 			}
 		}
 		SDL_RenderClear(sdlRenderer);

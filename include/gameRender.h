@@ -13,3 +13,4 @@ void troopsMoveAndPrint(struct Troop * (troops[TroopsMax]));
 void makeBooster(struct Booster * (boosters[BoostersMax]), struct State *states, int *indexBoosters);
 void myAI(struct State *states);
 void gameSetup(int newOrOld , int id, int map , int G , int S ,int RandSave);
+
