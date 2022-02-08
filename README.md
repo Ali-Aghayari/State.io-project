@@ -6,3 +6,5 @@
 
 STD ID : 400104715
 STD : Ali Aghayari
+
+-- copy paste folder res in /bin/debug and /bin/release --
