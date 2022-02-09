@@ -40,10 +40,10 @@ void writeOnScreenForStates(int mode1, int mode2, int mode3, int mode4, int mode
 	boxRGBA(sdlRenderer, SCREEN_WIDTH / 2 - 250, 620, SCREEN_WIDTH / 2 + 250, 730, 0, 0, 0, 100);
 	int RGB[] = {100, 100, 100};
 	outputScreen("6", SCREEN_WIDTH / 2 , 160, 130 - 30 * mode1 , RGB, mode1);
-	outputScreen("9", SCREEN_WIDTH / 2 , 290, 130 - 30 * mode2 , RGB, mode2);
-	outputScreen("12", SCREEN_WIDTH / 2 , 420, 130 - 30 * mode3 , RGB, mode3);
-	outputScreen("15", SCREEN_WIDTH / 2 , 550, 130 - 30 * mode4 , RGB, mode4);
-	outputScreen("18", SCREEN_WIDTH / 2 , 680, 130 - 30 * mode4 , RGB, mode4);
+	outputScreen("8", SCREEN_WIDTH / 2 , 290, 130 - 30 * mode2 , RGB, mode2);
+	outputScreen("10", SCREEN_WIDTH / 2 , 420, 130 - 30 * mode3 , RGB, mode3);
+	outputScreen("12", SCREEN_WIDTH / 2 , 550, 130 - 30 * mode4 , RGB, mode4);
+	outputScreen("14", SCREEN_WIDTH / 2 , 680, 130 - 30 * mode4 , RGB, mode4);
 
 }
 int mapChoosePreSetup() {
@@ -82,6 +82,8 @@ int mapChoosePreSetup() {
 				return 0;
 			}
 			if  (event.type == SDL_QUIT) {
+				SDL_DestroyRenderer(sdlRenderer);
+				SDL_DestroyWindow(sdlWindow);
 				TTF_Quit();
 				SDL_Quit();
 				exit(0);
@@ -167,6 +169,8 @@ int howManyGroups() {
 				return 0;
 			}
 			if  (event.type == SDL_QUIT) {
+				SDL_DestroyRenderer(sdlRenderer);
+				SDL_DestroyWindow(sdlWindow);
 				TTF_Quit();
 				SDL_Quit();
 				exit(0);
@@ -204,24 +208,26 @@ int howManyStates() {
 			}
 			else if (SCREEN_WIDTH / 2 - 250 < xMouse && xMouse < SCREEN_WIDTH / 2 + 250 && 230 < yMouse && yMouse < 350) {
 				mode2 = 3;
-				if (event.type == SDL_MOUSEBUTTONDOWN) {return 9;}
+				if (event.type == SDL_MOUSEBUTTONDOWN) {return 8;}
 			}
 			else if (SCREEN_WIDTH / 2 - 250 < xMouse && xMouse < SCREEN_WIDTH / 2 + 250 && 360 < yMouse && yMouse < 480) {
 				mode3 = 3;
-				if (event.type == SDL_MOUSEBUTTONDOWN) {return 12;}
+				if (event.type == SDL_MOUSEBUTTONDOWN) {return 10;}
 			}
 			else if (SCREEN_WIDTH / 2 - 250 < xMouse && xMouse < SCREEN_WIDTH / 2 + 250 && 360 < yMouse && yMouse < 610) {
 				mode4 = 3;
-				if (event.type == SDL_MOUSEBUTTONDOWN) {return 15;}
+				if (event.type == SDL_MOUSEBUTTONDOWN) {return 12;}
 			}
 			else if (SCREEN_WIDTH / 2 - 250 < xMouse && xMouse < SCREEN_WIDTH / 2 + 250 && 620 < yMouse && yMouse < 740) {
 				mode5 = 3;
-				if (event.type == SDL_MOUSEBUTTONDOWN) {return 18;}
+				if (event.type == SDL_MOUSEBUTTONDOWN) {return 14;}
 			}
 			if (event.key.keysym.sym == SDLK_ESCAPE) {
 				return 0;
 			}
 			if  (event.type == SDL_QUIT) {
+				SDL_DestroyRenderer(sdlRenderer);
+				SDL_DestroyWindow(sdlWindow);
 				TTF_Quit();
 				SDL_Quit();
 				exit(0);
@@ -286,6 +292,8 @@ int saveCheck() {
 			else if (event.key.keysym.sym == SDLK_ESCAPE) {SDL_StopTextInput(); return -1;}
 			else if  (event.type == SDL_QUIT ) {
 				SDL_StopTextInput();
+				SDL_DestroyRenderer(sdlRenderer);
+				SDL_DestroyWindow(sdlWindow);
 				TTF_Quit();
 				SDL_Quit();
 				exit(0);
@@ -350,6 +358,8 @@ int SaveMap() {
 			else if (event.key.keysym.sym == SDLK_ESCAPE) {SDL_StopTextInput(); return 0;}
 			else if  (event.type == SDL_QUIT ) {
 				SDL_StopTextInput();
+				SDL_DestroyRenderer(sdlRenderer);
+				SDL_DestroyWindow(sdlWindow);
 				TTF_Quit();
 				SDL_Quit();
 				exit(0);

@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"atta",
+				"attackCount"
+			],
+			[
+				"sd",
+				"sdlWindow"
+			],
+			[
+				"grey",
+				"GreyTeam"
+			],
+			[
 				"temp",
 				"temp2"
 			],
@@ -30,10 +42,6 @@
 			[
 				"max",
 				"TroopsMax"
-			],
-			[
-				"grey",
-				"GreyTeam"
 			],
 			[
 				"def",
@@ -140,10 +148,6 @@
 				"indexOfState"
 			],
 			[
-				"sd",
-				"SDL_ttf"
-			],
-			[
 				"scre",
 				"SCREEN_HEIGHT"
 			],
@@ -201,10 +205,6 @@
 			],
 			[
 				"attack",
-				"attackTo"
-			],
-			[
-				"atta",
 				"attackTo"
 			],
 			[
@@ -477,10 +477,13 @@
 	},
 	"file_history":
 	[
+		"/home/bemoache/Desktop/state.io/mapChoosing.o",
+		"/home/bemoache/Desktop/state.io/src/menuPageRender.c",
+		"/home/bemoache/Desktop/state.io/src/mapChoosing.c",
+		"/home/bemoache/Desktop/state.io/src/fileHandling.c",
+		"/home/bemoache/Desktop/state.io/include/fileHandling.h",
 		"/home/bemoache/Desktop/state.io/src/main.c",
 		"/home/bemoache/Desktop/state.io/src/rankingPageRender.c",
-		"/home/bemoache/Desktop/state.io/src/mapChoosing.c",
-		"/home/bemoache/Desktop/state.io/src/menuPageRender.c",
 		"/home/bemoache/Desktop/state.io/src/welcomePageRender.c",
 		"/home/bemoache/Desktop/state.io/src/Init.c",
 		"/home/bemoache/Desktop/state.io/include/gameRender.h",
@@ -514,6 +517,16 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"myai",
+			"nyai",
+			"sdl_quit",
+			"SDL_Surface*",
+			"createTexture",
+			"ttf_openFont",
+			"sdl_quit",
+			"free",
+			"myai",
+			"loadbooster",
 			"TroopsMax",
 			"troopsCount",
 			"temp1",
@@ -558,7 +571,7 @@
 	},
 	"input":
 	{
-		"height": 40.0
+		"height": 41.0
 	},
 	"menu_visible": true,
 	"output.astyle_error_message":

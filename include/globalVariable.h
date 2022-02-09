@@ -11,11 +11,11 @@
 #define MapSize 64*3
 #define HalfSize 32*3
 #define BoosterSize 50
-#define BoosterTime 800
-#define BoosterDeff 200
+#define BoosterTime 900
+#define BoosterDeff 150
 #define AllertTime 100
-#define Sorat 1.5
-#define Speed 30
+#define Sorat 1.8
+#define Speed 25
 #define MaxGroup 5
 #define GreyTeam 6
 #define MyTeam 1
@@ -26,7 +26,7 @@
 #define BoostersMax 3
 #define OnlineBoostersMax 6
 
-#define TroopsMax 1200
+#define TroopsMax 2000
 #define StatesMax 35
 #define MaxInState 50
 

@@ -103,6 +103,8 @@ int inputScreenAndRefresh()
 				running = 0;
 			}
 			else if  (event.type == SDL_QUIT ) {
+				SDL_DestroyRenderer(sdlRenderer);
+				SDL_DestroyWindow(sdlWindow);
 				TTF_Quit();
 				SDL_Quit();
 				exit(0);
