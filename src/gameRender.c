@@ -467,20 +467,52 @@ void troopsMoveAndPrint(struct Troop * (troops[TroopsMax])) {
 void myAI(struct State * states) {
 	srand(time(0));
 	int random;
-	int counter = 0;
 	for (int m = 0; m < totalStates; m++)
 	{
-		if ((states + m)->attackTo != NULL || (states + m)->team == GreyTeam || (states + m)->team == MyTeam || (states + m)->troops < 15 ) {continue;}
-		random = rand() % totalStates;
-		if (random % 3 != 0) {continue;}
-		counter = 0;
-		while (1) {
-			if ((states + counter)->team == MyTeam || (states + counter)->team == GreyTeam) {
-				if (random == 0) {(states + m)->attackTo = (states + counter); (states + m)->attackCount = (states + m)->troops; break;}
-				else { random--;}
-			}
-			counter++; counter %= totalStates;
+		if ((states + m)->team == 1 || (states + m)->team == 6 || (states + m)->attackTo != NULL) {continue;}
+		else if ((states + m)->troops > 45 && rand() % 2 == 0 ) {
+			do {
+				random = rand() % totalStates;
+			} while (random == m);
+			(states + m)->attackTo = (states + random);
+			(states + m)->attackCount = (states + m)->troops;
 		}
+		else if ( rand() % 2 == 0) {continue;}
+		else if ((states + m)->troops >  MaxInState * 4 / 5) {
+			random = rand() % totalStates;
+			if ((states + m)->troops - (states + random)->troops > 5 && (states + m)->team != (states + random)->team ) {
+				(states + m)->attackTo = (states + random);
+			} else if (rand() % 100 == 0) {
+				(states + m)->attackTo = (states + random);
+				(states + m)->attackCount = (states + m)->troops;
+
+			}
+		}
+		else if ((states + m)->troops >  MaxInState * 3 / 5) {
+			random = rand() % totalStates;
+			if ((states + m)->troops - (states + random)->troops > 5 && (states + m)->team != (states + random)->team ) {
+				(states + m)->attackTo = (states + random);
+				(states + m)->attackCount = (states + m)->troops;
+
+			} else if (rand() % 100 == 0) {
+				(states + m)->attackTo = (states + random);
+				(states + m)->attackCount = (states + m)->troops;
+
+			}
+		}
+		else if ((states + m)->troops >  MaxInState * 2 / 5) {
+			random = rand() % totalStates;
+			if ((states + m)->troops - (states + random)->troops > 5 && (states + m)->team != (states + random)->team ) {
+				(states + m)->attackTo = (states + random);
+				(states + m)->attackCount = (states + m)->troops;
+
+			} else if (rand() % 100 == 0) {
+				(states + m)->attackTo = (states + random);
+				(states + m)->attackCount = (states + m)->troops;
+
+			}
+		}
+
 	}
 
 }
