@@ -590,7 +590,7 @@
 	{
 		"height": 337.0
 	},
-	"pinned_build_system": "Debug",
+	"pinned_build_system": "Release",
 	"replace":
 	{
 		"height": 54.0

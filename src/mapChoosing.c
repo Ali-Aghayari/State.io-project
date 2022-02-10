@@ -43,7 +43,7 @@ void writeOnScreenForStates(int mode1, int mode2, int mode3, int mode4, int mode
 	outputScreen("8", SCREEN_WIDTH / 2 , 290, 130 - 30 * mode2 , RGB, mode2);
 	outputScreen("10", SCREEN_WIDTH / 2 , 420, 130 - 30 * mode3 , RGB, mode3);
 	outputScreen("12", SCREEN_WIDTH / 2 , 550, 130 - 30 * mode4 , RGB, mode4);
-	outputScreen("14", SCREEN_WIDTH / 2 , 680, 130 - 30 * mode4 , RGB, mode4);
+	outputScreen("14", SCREEN_WIDTH / 2 , 680, 130 - 30 * mode5 , RGB, mode5);
 
 }
 int mapChoosePreSetup() {
@@ -214,7 +214,7 @@ int howManyStates() {
 				mode3 = 3;
 				if (event.type == SDL_MOUSEBUTTONDOWN) {return 10;}
 			}
-			else if (SCREEN_WIDTH / 2 - 250 < xMouse && xMouse < SCREEN_WIDTH / 2 + 250 && 360 < yMouse && yMouse < 610) {
+			else if (SCREEN_WIDTH / 2 - 250 < xMouse && xMouse < SCREEN_WIDTH / 2 + 250 && 490 < yMouse && yMouse < 610) {
 				mode4 = 3;
 				if (event.type == SDL_MOUSEBUTTONDOWN) {return 12;}
 			}
